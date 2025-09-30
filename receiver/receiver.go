@@ -83,28 +83,27 @@ func receiveFile(r *bufio.Reader, dstDir string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("error decompressing: %w", err)
 	}
+	zr.Multistream(false) // stop after first EOF
 	defer zr.Close()
 
 	dstFilepath := filepath.Join(dstDir, fn)
-	f, err := os.OpenFile(dstFilepath, os.O_RDWR|os.O_CREATE, 0644) //rw-r--r--
+	f, err := os.OpenFile(dstFilepath, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0644) //rw-r--r--
 	if err != nil {
 		return "", fmt.Errorf("error creating file %s: %w", dstFilepath, err)
 	}
 
-	if _, err := io.Copy(f, zr); err != nil {
-		return "", fmt.Errorf("error copying decompressed file: %w", err)
-	}
+	written, copyErr := io.Copy(f, zr)
 	f.Close()
+	if copyErr != nil {
+		_ = os.Remove(dstFilepath)
+		return "", fmt.Errorf("error copying decompressed file: %w", copyErr)
+	}
 
 	// check file
-	fi, err := os.Stat(dstFilepath)
-	if err != nil {
-		return "", fmt.Errorf("error checking file %s: %w", dstFilepath, err)
-	}
-	if fi.Size() != int64(fSize) {
+	if written != int64(fSize) {
 		// remove the file and throw an error
 		os.Remove(dstFilepath)
-		return "", fmt.Errorf("error: size of received file does not match size of sent file: %w", err)
+		return "", fmt.Errorf("size of received file does not match size of sent file: got %d, expected %d", written, fSize)
 	}
 
 	return fn, nil

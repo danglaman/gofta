@@ -49,7 +49,7 @@ func SendFiles(filepaths []string, port int) error {
 		if err := sendFile(w, filepath); err != nil {
 			fmt.Printf("couldn't send file %s: %v", filepath, err)
 		} else {
-			fmt.Printf("	sent file %s [%d/%d]\n", filepath, i+1, len(filepaths))
+			fmt.Printf("	sent file %s - [%d/%d]\n", filepath, i+1, len(filepaths))
 		}
 	}
 	return nil
