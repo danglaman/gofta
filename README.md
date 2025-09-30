@@ -47,8 +47,8 @@ Connect to a address you can reach on port 5005
 
 Waiting for receiver to send file(s)...
 Connection accepted from 192.168.178.151:57942
-        sent file test/test.txt - [1/2]
-        sent file C:\Users\dangl\Projekte\File Transfer App\ServerlessNetworkFileSysstem.pdf - [2/2]
+        sent file file1.txt - [1/2]
+        sent file file2.pdf - [2/2]
 ```
 
 ### Receiver
@@ -64,8 +64,8 @@ Example:
 Output:
 ```bash
 Receving 2 file(s) from sender at 192.168.178.151:5005...
-        received test.txt - [1/2]
-        received ServerlessNetworkFileSysstem.pdf - [2/2]
+        received file1.txt - [1/2]
+        received file2.pdf - [2/2]
 ```
 ### Defaults
 - Default port: `5005`
