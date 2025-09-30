@@ -59,11 +59,11 @@ Run the receiver to connect to the sender’s IP and specify a destination path:
 
 Example:
 ```bash
-./gofta receive 192.168.178.151 .
+./gofta receive 192.168.178.23 .
 ```
 Output:
 ```bash
-Receving 2 file(s) from sender at 192.168.178.151:5005...
+Receving 2 file(s) from sender at 192.168.178.23:5005...
         received file1.txt - [1/2]
         received file2.pdf - [2/2]
 ```
